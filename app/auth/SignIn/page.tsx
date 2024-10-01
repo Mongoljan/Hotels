@@ -14,7 +14,7 @@ export default function LoginPage() {
     event.preventDefault();
 
     // Simulate a login and determine the user role (mock logic)
-    const role = email === "admin@example.com" ? "admin" : "user";
+    const role = email === "admin@example" ? "admin" : "user";
     
     // Update the context with the user role
     login(role);
@@ -22,8 +22,8 @@ export default function LoginPage() {
     // Redirect the user based on role
     if (role === "admin") {
       router.push("/admin/dashboard"); // Redirect admin to the admin dashboard
-    } else {
-      router.push("/user/profile"); // Redirect regular users to their profile page
+    } else if(email === "user@example") {
+      router.push("/user/dashboard"); // Redirect regular users to their profile page
     }
   };
 

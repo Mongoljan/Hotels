@@ -1,52 +1,68 @@
-'use client'
-import Link from "next/link";
-import { useState } from "react";
+"use client";
+import { useState, useEffect } from "react";
 import Menu from "@/components/menu";
+import Link from "next/link";
 
 export default function Home() {
-  // State to manage checkboxes
-  const [menuConfig, setMenuConfig] = useState({
-    showAdminDashboard: false,
-    showAdminSettings: false,
-    showSettings: false,
-    showContact: false,
-    showProfile: false,
-    showUserMenu: false,
+  const [menuConfig, setMenuConfig] = useState(() => {
+    if (typeof window !== "undefined") {
+      const savedConfig = localStorage.getItem("menuConfig");
+      return savedConfig
+        ? JSON.parse(savedConfig)
+        : {
+            showAdminDashboard: false,
+            showAdminSettings: false,
+            showSettings: false,
+            showContact: false,
+            showProfile: false,
+            showUserMenu: false,
+          };
+    }
+    return {
+      showAdminDashboard: false,
+      showAdminSettings: false,
+      showSettings: false,
+      showContact: false,
+      showProfile: false,
+      showUserMenu: false,
+    };
   });
 
-  // Handler to update menu visibility
+  // Track whether configuration has been saved
+  const [savedMessage, setSavedMessage] = useState(false);
+
   const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, checked } = event.target;
-    setMenuConfig((prevConfig) => ({
+    setMenuConfig((prevConfig: any) => ({
       ...prevConfig,
       [name]: checked,
     }));
   };
 
+  useEffect(() => {
+    localStorage.setItem("menuConfig", JSON.stringify(menuConfig));
+  }, [menuConfig]);
+
+  // Handle save button click
+  const handleSave = () => {
+    localStorage.setItem("menuConfig", JSON.stringify(menuConfig));
+    setSavedMessage(true);
+
+    // Hide the success message after 3 seconds
+    setTimeout(() => {
+      setSavedMessage(false);
+    }, 3000);
+  };
+
   return (
     <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
       <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-
         <div className="text-[40px]">Нүүр хуудас</div>
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <Link
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href={"/auth/SignIn"}
-          >
-            Нэвтрэх
-          </Link>
-
-          <Link
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href={"/auth/SignUp"}
-          >
-            Бүртгүүлэх
-          </Link>
-        </div>
+        <div>Хэрэглэгч,</div>
 
         {/* Checkbox controls for the menu */}
-        {/* <div className="flex flex-col gap-4 mt-4">
+        <div className="flex flex-col gap-4 mt-4">
           <label>
             <input
               type="checkbox"
@@ -101,18 +117,37 @@ export default function Home() {
             />
             Хэрэглэгчийн цэс харуулах
           </label>
-        </div> */}
+        </div>
+
+        {/* Save Button */}
+        <button
+          className="bg-blue-500 text-white p-2 rounded w-full mt-4"
+          onClick={handleSave}
+        >
+          Save Configuration
+        </button>
+
+        {/* Show success message if saved */}
+        {savedMessage && (
+          <div className="text-green-500 mt-4">
+            Амжилттай хадгаллаа. 
+          </div>
+        )}
       </main>
 
       {/* Pass the state to Menu */}
-      {/* <Menu
+      <Menu
         showAdminDashboard={menuConfig.showAdminDashboard}
         showAdminSettings={menuConfig.showAdminSettings}
         showSettings={menuConfig.showSettings}
         showContact={menuConfig.showContact}
         showProfile={menuConfig.showProfile}
         showUserMenu={menuConfig.showUserMenu}
-      /> */}
+      />
+      <Link href={"/#"}>
+      гарах
+      
+      </Link>
     </div>
   );
 }
