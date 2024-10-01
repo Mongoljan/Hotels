@@ -1,4 +1,4 @@
-'use client'
+'use client';
 import Link from "next/link";
 import { useState } from "react";
 import Menu from "@/components/menu";
@@ -46,7 +46,7 @@ export default function Home() {
         </div>
 
         {/* Checkbox controls for the menu */}
-        {/* <div className="flex flex-col gap-4 mt-4">
+        <div className="flex flex-col gap-4 mt-4">
           <label>
             <input
               type="checkbox"
@@ -101,18 +101,18 @@ export default function Home() {
             />
             Хэрэглэгчийн цэс харуулах
           </label>
-        </div> */}
+        </div>
       </main>
 
       {/* Pass the state to Menu */}
-      {/* <Menu
+      <Menu
         showAdminDashboard={menuConfig.showAdminDashboard}
         showAdminSettings={menuConfig.showAdminSettings}
         showSettings={menuConfig.showSettings}
         showContact={menuConfig.showContact}
         showProfile={menuConfig.showProfile}
         showUserMenu={menuConfig.showUserMenu}
-      /> */}
+      />
     </div>
   );
 }
