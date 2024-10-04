@@ -3,8 +3,18 @@
 import React, { useState, useEffect } from "react";
 import MapPicker from "react-google-map-picker";
 
+// Define a type for the location
+
+type Location = {
+  lat: number;
+  lng: number;
+};
+
+const apiKey = process.env.APIKEY;
+console.log("here is key:",apiKey);
+
 // Default location and zoom values
-const DefaultLocation = { lat: 47.918873, lng: 106.917017 }; // Example: Ulaanbaatar
+const DefaultLocation: Location = { lat: 47.918873, lng: 106.917017 }; // Example: Ulaanbaatar
 const DefaultZoom = 10;
 
 export default function RegisterPage() {
@@ -15,7 +25,7 @@ export default function RegisterPage() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
-  const [location, setLocation] = useState(() => {
+  const [location, setLocation] = useState<Location>(() => {
     const savedLocation = localStorage.getItem("mapLocation");
     return savedLocation ? JSON.parse(savedLocation) : DefaultLocation;
   });
@@ -130,32 +140,34 @@ export default function RegisterPage() {
         />
 
         {/* Latitude input */}
-        <label className="block mb-2">Latitute:</label>
+        <label className="block mb-2">Latitude:</label>
         <input
-          type="text"
+          type="number"
           value={location.lat}
           onChange={(e) => setLocation({ ...location, lat: parseFloat(e.target.value) })}
           className="border p-2 w-full mb-4 h-14 rounded-lg"
+          step="0.000001" // Allow decimal values
         />
 
         {/* Longitude input */}
-        <label className="block mb-2">Longitute:</label>
+        <label className="block mb-2">Longitude:</label>
         <input
-          type="text"
+          type="number"
           value={location.lng}
           onChange={(e) => setLocation({ ...location, lng: parseFloat(e.target.value) })}
           className="border p-2 w-full mb-4 h-14 rounded-lg"
+          step="0.000001" // Allow decimal values
         />
 
         {/* Google Map Picker */}
-        <MapPicker
+        {/* <MapPicker
           defaultLocation={location}
           zoom={zoom}
           style={{ height: "400px", marginBottom: "20px" }}
           onChangeLocation={handleChangeLocation}
           onChangeZoom={handleChangeZoom}
-    apiKey='AIzaSyCxBQOQ3boRTBfH5NLGW_zYn8js2hbfOrk'
-        />
+          apiKey={apiKey}
+        /> */}
 
         {/* Current Location button */}
         <button
@@ -187,8 +199,8 @@ export default function RegisterPage() {
 
         {/* Confirm Password input */}
         <input
-          type="Нууц үг давтан оруулах"
-          placeholder="Confirm Password"
+          type="password"
+          placeholder="Нууц үг давтан оруулах"
           value={confirmPassword}
           onChange={(e) => setConfirmPassword(e.target.value)}
           className="border p-2 w-full mb-4 h-14 rounded-lg"
