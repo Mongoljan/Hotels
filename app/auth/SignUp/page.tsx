@@ -3,15 +3,14 @@
 import React, { useState, useEffect } from "react";
 import MapPicker from "react-google-map-picker";
 
-// Define a type for the location
 
 type Location = {
   lat: number;
   lng: number;
 };
 
-const apiKey = process.env.APIKEY;
-console.log("here is key:",apiKey);
+// const apiKey = process.env.API_KEY;
+// console.log("here is key:",apiKey);
 
 // Default location and zoom values
 const DefaultLocation: Location = { lat: 47.918873, lng: 106.917017 }; // Example: Ulaanbaatar
@@ -160,14 +159,16 @@ export default function RegisterPage() {
         />
 
         {/* Google Map Picker */}
-        {/* <MapPicker
+        <MapPicker
           defaultLocation={location}
           zoom={zoom}
           style={{ height: "400px", marginBottom: "20px" }}
           onChangeLocation={handleChangeLocation}
           onChangeZoom={handleChangeZoom}
-          apiKey={apiKey}
-        /> */}
+          apiKey={`${
+      process.env.NEXT_PUBLIC_API_KEY
+    }`}
+        />
 
         {/* Current Location button */}
         <button
