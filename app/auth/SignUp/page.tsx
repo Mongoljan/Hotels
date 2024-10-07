@@ -1,4 +1,4 @@
-"use client";
+'use client'
 
 import React, { useState, useEffect } from "react";
 import { GoogleMap, Marker, LoadScript } from "@react-google-maps/api";
@@ -8,7 +8,6 @@ type Location = {
   lng: number;
 };
 
-// Default location and zoom values
 const DefaultLocation: Location = { lat: 47.918873, lng: 106.917017 }; // Example: Ulaanbaatar
 const DefaultZoom = 10;
 
@@ -20,19 +19,29 @@ export default function RegisterPage() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
-  const [location, setLocation] = useState<Location>(() => {
-    const savedLocation = localStorage.getItem("mapLocation");
-    return savedLocation ? JSON.parse(savedLocation) : DefaultLocation;
-  });
+  const [location, setLocation] = useState<Location>(DefaultLocation);
+  const [zoom, setZoom] = useState(DefaultZoom);
 
-  const [zoom, setZoom] = useState(() => {
-    const savedZoom = localStorage.getItem("mapZoom");
-    return savedZoom ? JSON.parse(savedZoom) : DefaultZoom;
-  });
+  // Ensure that localStorage is accessed only on the client side
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const savedLocation = localStorage.getItem("mapLocation");
+      if (savedLocation) {
+        setLocation(JSON.parse(savedLocation));
+      }
+
+      const savedZoom = localStorage.getItem("mapZoom");
+      if (savedZoom) {
+        setZoom(JSON.parse(savedZoom));
+      }
+    }
+  }, []);
 
   useEffect(() => {
-    localStorage.setItem("mapLocation", JSON.stringify(location));
-    localStorage.setItem("mapZoom", JSON.stringify(zoom));
+    if (typeof window !== "undefined") {
+      localStorage.setItem("mapLocation", JSON.stringify(location));
+      localStorage.setItem("mapZoom", JSON.stringify(zoom));
+    }
   }, [location, zoom]);
 
   const handleRegister = (event: React.FormEvent) => {
@@ -54,14 +63,13 @@ export default function RegisterPage() {
     });
   };
 
-  // Get the user's current location using Geolocation API
   const handleCurrentLocation = () => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
           const { latitude, longitude } = position.coords;
           setLocation({ lat: latitude, lng: longitude });
-          setZoom(15); // Zoom in to the current location
+          setZoom(15);
         },
         (error) => {
           alert("Error getting your location");
@@ -126,7 +134,7 @@ export default function RegisterPage() {
           value={location.lat}
           onChange={(e) => setLocation({ ...location, lat: parseFloat(e.target.value) })}
           className="border p-2 w-full mb-4 h-14 rounded-lg"
-          step="0.000001" // Allow decimal values
+          step="0.000001"
         />
 
         {/* Longitude input */}
@@ -136,7 +144,7 @@ export default function RegisterPage() {
           value={location.lng}
           onChange={(e) => setLocation({ ...location, lng: parseFloat(e.target.value) })}
           className="border p-2 w-full mb-4 h-14 rounded-lg"
-          step="0.000001" // Allow decimal values
+          step="0.000001"
         />
 
         {/* Google Map */}
@@ -148,13 +156,10 @@ export default function RegisterPage() {
             onClick={(e) => {
               if (e.latLng) {
                 setLocation({ lat: e.latLng.lat(), lng: e.latLng.lng() });
-                setZoom(15); // Optional: Adjust zoom on click
-              } else {
-                console.error("Location data is null");
+                setZoom(15);
               }
             }}
           >
-            {/* Marker at the selected location */}
             <Marker position={location} />
           </GoogleMap>
         </LoadScript>
@@ -168,7 +173,7 @@ export default function RegisterPage() {
           Одоогийн байршлыг сонгох 
         </button>
 
-        {/* Reset button for map */}
+        {/* Reset button */}
         <button
           type="button"
           onClick={() => setLocation(DefaultLocation)}
