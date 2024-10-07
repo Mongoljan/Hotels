@@ -1,16 +1,12 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import MapPicker from "react-google-map-picker";
-
+import { GoogleMap, Marker, LoadScript } from "@react-google-maps/api";
 
 type Location = {
   lat: number;
   lng: number;
 };
-
-// const apiKey = process.env.API_KEY;
-// console.log("here is key:",apiKey);
 
 // Default location and zoom values
 const DefaultLocation: Location = { lat: 47.918873, lng: 106.917017 }; // Example: Ulaanbaatar
@@ -57,21 +53,6 @@ export default function RegisterPage() {
       password,
     });
   };
-
-  // Handle location and zoom changes from the map
-  function handleChangeLocation(lat: number, lng: number) {
-    setLocation({ lat, lng });
-  }
-
-  function handleChangeZoom(newZoom: number) {
-    setZoom(newZoom);
-  }
-
-  // Reset map to default location
-  function handleResetLocation() {
-    setLocation(DefaultLocation);
-    setZoom(DefaultZoom);
-  }
 
   // Get the user's current location using Geolocation API
   const handleCurrentLocation = () => {
@@ -158,17 +139,25 @@ export default function RegisterPage() {
           step="0.000001" // Allow decimal values
         />
 
-        {/* Google Map Picker */}
-        <MapPicker
-          defaultLocation={location}
-          zoom={zoom}
-          style={{ height: "400px", marginBottom: "20px" }}
-          onChangeLocation={handleChangeLocation}
-          onChangeZoom={handleChangeZoom}
-          apiKey={`${
-      process.env.NEXT_PUBLIC_API_KEY
-    }`}
-        />
+        {/* Google Map */}
+        <LoadScript googleMapsApiKey={process.env.NEXT_PUBLIC_API_KEY!}>
+          <GoogleMap
+            mapContainerStyle={{ height: "400px", marginBottom: "20px" }}
+            center={location}
+            zoom={zoom}
+            onClick={(e) => {
+              if (e.latLng) {
+                setLocation({ lat: e.latLng.lat(), lng: e.latLng.lng() });
+                setZoom(15); // Optional: Adjust zoom on click
+              } else {
+                console.error("Location data is null");
+              }
+            }}
+          >
+            {/* Marker at the selected location */}
+            <Marker position={location} />
+          </GoogleMap>
+        </LoadScript>
 
         {/* Current Location button */}
         <button
@@ -182,7 +171,7 @@ export default function RegisterPage() {
         {/* Reset button for map */}
         <button
           type="button"
-          onClick={handleResetLocation}
+          onClick={() => setLocation(DefaultLocation)}
           className="mb-4 p-2 bg-gray-300 rounded-lg w-full"
         >
           Дахин шинээр сонгох
