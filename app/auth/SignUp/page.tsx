@@ -135,7 +135,7 @@ export default function RegisterPage() {
 
   return (
     <div className="flex justify-center items-center min-h-screen h-full py-[100px] bg-gray-100 rounded-[20px]">
-              <button className="h-[400px] w-[300px] bg-blue-400" onClick={() => toast.success('Test Toast!')}>Test Toast</button>
+              {/* <button className="h-[400px] w-[300px] bg-blue-400" onClick={() => toast.success('Test Toast!')}>Test Toast</button> */}
               <ToastContainer />
       <form
         onSubmit={handleSubmit(onSubmit)}
