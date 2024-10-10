@@ -42,25 +42,30 @@ export const schemaOnlyEmail = z.object({
 email: z.string().email({ message:"schemas_emailformat"}),
 });
 const urlValidation = z.string().url({ message: "Invalid URL format" });
+export const schemaLogin = z.object({
+    email: z.string().email('И-мэйл хаяг зөв биш байна'),
+    password: z.string().min(6, 'Нууц үг 6-аас доошгүй тэмдэгттэй байх ёстой'),
+  });
+  
 export const schemaRegistration = z
 .object({
   email: z
     .string()
-    .email({ message:"schemas_emailformat"})
-    .max(255, { message: "schemas_emailcannotbe255"}),
+    .email({ message:"Email format is invalid"})
+    .max(255, { message: "Email address cannot exceed 255 characters"}),
   contact_person_name: z
     .string()
-    .min(3, { message: "schemas_ContactName" }),
+    .min(3, { message: "Холбоо барих хүний нэр" }),
     hotel_name: z
     .string()
-    .min(3, { message: "schemas_hotelName" }),
+    .min(3, { message: "Зочид буудлын нэр" }),
     google_map_address: urlValidation,
     address_location: z
     .string()
-    .min(3, { message: "schemas_addressLocation" }),
+    .min(3, { message: "Зочид буудлын хаяг" }),
   contact_number: z
     .string()
-    .min(3, { message: "schemas_phonenumber"}),
+    .min(3, { message: "Гар утасны дугаар багадаа 3 оронтой байна."}),
   password: z
     .string()
     .min(8, {
@@ -82,11 +87,11 @@ export const schemaRegistration = z
     }) // Uppercase letter
     .regex(/\d/, {
       message:
-      "schemas_password",
+      "The password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one number, and one special character",
     }) // Number
     .regex(/[@$!%*;?&#]/, {
       message:
-      "schemas_password",
+      "The password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one number, and one special character",
     }), // Special character
   // .min(8, { message: "Нууц үг дор хаяж 8 тэмдэгтийн урттай байна" })
   // .max(100, { message: "Нууц үг 100 тэмдэгтээс их байж болохгүй" })
@@ -101,12 +106,12 @@ export const schemaRegistration = z
   //   message: "Password must contain at least one special character",
   // }), // Special character
   confirmPassword: z.string().min(8, {
-    message: "schemas_passwordmustbe",
+    message: "The password must be at least 8 characters long",
   }),
 })
 
 .refine((data) => data.password === data.confirmPassword, {
-  message: "schemas_passwordnotmatch",
+  message: "Password does not match",
   path: ["confirmPassword"], // Specify the path of the field to which the error belongs
 });
 

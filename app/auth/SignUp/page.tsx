@@ -11,6 +11,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import { HiEye, HiEyeSlash } from 'react-icons/hi2';
 import PhoneInput from "react-phone-input-2";
 import { ApiError } from 'next/dist/server/api-utils';
+import Link from 'next/link';
 
 
 
@@ -124,7 +125,7 @@ export default function RegisterPage() {
           setLocation({ lat: latitude, lng: longitude });
           setZoom(15);
         },
-        () => {
+        () => { 
           alert('Error getting your location');
         }
       );
@@ -134,61 +135,79 @@ export default function RegisterPage() {
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen h-full py-[100px] bg-gray-100 rounded-[20px]">
+    <div className="flex justify-center items-center min-h-screen h-full py-[100px] bg-[#E5FDoD] rounded-[20px]">
               {/* <button className="h-[400px] w-[300px] bg-blue-400" onClick={() => toast.success('Test Toast!')}>Test Toast</button> */}
               <ToastContainer />
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="bg-white p-10 px-20 max-w-[600px] rounded-[20px] border-slate-400 border-solid border-[0.5px] text-gray-600"
+        className="bg-white p-10 px-20 max-w-[600px] rounded-md text-gray-600"
       >
         <h2 className="text-2xl font-bold mx-auto text-center text-blue-500 mb-10">Бүртүүлэх</h2>
 
         {/* Username input */}
+        <div className="mb-5"> Аккаунт байхгүй юу?   
+<Link
+            className="text-blue-500 ml-[4px] hover:text-blue-300"
+            href={"/auth/signUp"}
+          >
+            Бүртгүүлэх
+          </Link>
+          </div>
+
         <input
           type="text"
           placeholder="Холбоо барих хүний нэр"
           {...register('contact_person_name')}
-          className="border p-2 w-full mb-4 h-14 rounded-lg"
+          className=" border p-2 w-full mb-4 h-14 rounded-md"
           required
         />
+     
         {errors.contact_person_name && <div className="text-red-500">{errors.contact_person_name.message}</div>}
 
         {/* Hotel Name input */}
+    
         <input
           type="text"
           placeholder="Зочид буудлын нэр"
           {...register('hotel_name')}
-          className="border p-2 w-full mb-4 h-14 rounded-lg"
+          className="border p-2 w-full mb-4 h-14 rounded-md"
           required
         />
 
         {/* Email input */}
+      
         <input
           type="email"
           placeholder="И-мэйл хаяг"
           {...register('email')}
-          className="border p-2 w-full mb-4 h-14 rounded-lg"
+          className="border p-2 w-full mb-4 h-14 rounded-md"
           required
         />
         {errors.email && <div className="text-red-500">{errors.email.message}</div>}
 
         {/* Address input */}
+    
         <input
   type="text"
   placeholder="Буудлын google map location"
   {...register('google_map_address')}
-  className="border p-2 w-full mb-4 h-14 rounded-lg"
+  className="border p-2 w-full mb-4 h-14 rounded-md"
 />
 {errors.google_map_address && (
   <div className="text-red-500">{errors.google_map_address.message}</div>
 )}
+
            <input
           type="text"
           placeholder="Буудлын хаяг"
           {...register('address_location')}
-          className="border p-2 w-full mb-4 h-14 rounded-lg"
+          className="border p-2 w-full mb-4 h-14 rounded-md"
         />
+         {/* <label>
+        Гар утасны дугаар
+        </label> */}
       <PhoneInput
+      
             country={"mn"}
             enableSearch
             disableSearchIcon
@@ -198,8 +217,13 @@ export default function RegisterPage() {
             inputStyle={{
               width: "100%",
               fontSize: "0.875rem",
-              border: "none",
+              border:"solid",
+              borderColor:"#E5E7EB",
               background: "inherit",
+              padding:"14px",
+              marginBottom:"15px",
+              borderRadius:"4px"
+
             }}
           />
           {errors.contact_number && (
@@ -214,7 +238,7 @@ export default function RegisterPage() {
             type={isPasswordVisible ? 'text' : 'password'}
             placeholder="Нууц үг"
             {...register('password')}
-            className="border p-2 w-full h-14 rounded-lg"
+            className="border p-2 w-full h-14 rounded-md"
             required
           />
           <button
@@ -233,7 +257,7 @@ export default function RegisterPage() {
             type={isConfirmPasswordVisible ? 'text' : 'password'}
             placeholder="Нууц үг давтах"
             {...register('confirmPassword')}
-            className="border p-2 w-full h-14 rounded-lg"
+            className="border p-2 w-full h-14 rounded-md"
             required
           />
           <button
@@ -251,7 +275,7 @@ export default function RegisterPage() {
         {/* Register button */}
         <button
           type="submit"
-          className="w-full bg-blue-500 text-white py-2 px-4 font-semibold rounded-lg"
+          className="w-full bg-blue-500 mt-[30px]  text-white py-3 hover:bg-blue-300 px-4 font-semibold rounded-md"
           disabled={isSubmitting}
         >
           {isSubmitting ? 'Түр хүлээнэ үү...' : 'Бүртгүүлэх'}
