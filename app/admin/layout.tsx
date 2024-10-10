@@ -1,6 +1,6 @@
 'use client';
 import { useEffect, useState } from "react";
-import Topbar from "./Topbar";
+import Topbar from "./TopbarAdmin";
 import Sidebar from "./Sidebar";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
