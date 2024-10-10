@@ -11,7 +11,7 @@ export default function Topbar({ toggleSidebar, sideBarOpen }: { toggleSidebar: 
   };
 
   return (
-    <>
+    <div>
       <div className="h-[50px] border-b-[1px] bg-white px-[50px] text-black flex justify-end items-center">
         <div className="flex gap-4 items-center">
           <button
@@ -45,6 +45,6 @@ export default function Topbar({ toggleSidebar, sideBarOpen }: { toggleSidebar: 
           ></span>
         </button>
       </div>
-    </>
+    </div>
   );
 }
