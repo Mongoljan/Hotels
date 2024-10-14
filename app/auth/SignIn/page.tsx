@@ -16,6 +16,7 @@ type FormFields = z.infer<typeof schemaLogin>;
 
 export default function LoginPage() {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(true); // Toggle between user and admin
   const router = useRouter();
 
   const {
@@ -33,7 +34,12 @@ export default function LoginPage() {
         password: data.password,
       };
 
-      const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/hotel-owner/login/`, {
+      // Define API endpoint based on toggle (admin or user)
+      const apiEndpoint = isAdmin
+        ? `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/hotel-owner/login/`
+        : `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/user-info-login/`;
+
+      const response = await fetch(apiEndpoint, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -44,15 +50,27 @@ export default function LoginPage() {
       if (response.ok) {
         const responseData = await response.json();
 
-        // Store the token in a cookie (not HTTP-only, accessible by client-side JavaScript)
+        // Common token storage for both admin and user
         Cookies.set('jwtToken', responseData.token, {
           expires: 0.02083,  // 1 day expiration
-          secure: process.env.NODE_ENV === 'production',  // Use secure cookies in production
-          sameSite: 'Strict',  // Ensure cookie is sent only with requests from the same site
+          secure: process.env.NODE_ENV === 'production',
+          sameSite: 'Strict',
         });
 
-        toast.success('Login successful!');
-        router.push('/admin/dashboard'); // Redirect after successful login
+        // Store specific user/admin info and type in a cookie
+        if (isAdmin && responseData.hotel_owner) {
+          Cookies.set('userType', 'admin');
+          Cookies.set('adminInfo', JSON.stringify(responseData.hotel_owner));
+          toast.success('Admin login successful!');
+          router.push('/admin/dashboard'); // Redirect to admin dashboard
+        } else if (responseData.user) {
+          Cookies.set('userType', 'user');
+          Cookies.set('userInfo', JSON.stringify(responseData.user));
+          toast.success('User login successful!');
+          router.push('/user/dashboard'); // Redirect to user dashboard
+        } else {
+          toast.error('Invalid response data.');
+        }
       } else {
         const errorData = await response.json();
         toast.error(errorData.message || 'Login failed. Please check your input.');
@@ -64,21 +82,47 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="flex bg-[#E5FDoD] justify-center items-center min-h-screen h-full py-[100px]  rounded-[20px]">
+    <div className="flex bg-[#E5FDoD] justify-center items-center min-h-screen h-full py-[100px] rounded-[20px]">
       <ToastContainer />
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="bg-white p-10 px-20 max-w-[600px] md:min-w-[550px] min-w-[250px] rounded-md  text-gray-600"
+        className="bg-white p-10 px-20 max-w-[600px] md:min-w-[550px] min-w-[250px] rounded-md text-gray-600"
       >
         <h2 className="text-2xl font-bold mx-auto text-center text-blue-500 mb-10">Нэвтрэх</h2>
-<div className="mb-5"> Аккаунт байхгүй юу?   
-<Link
-            className="text-blue-500 ml-[4px] hover:text-blue-300"
-            href={"/auth/signUp"}
-          >
-            Бүртгүүлэх
-          </Link>
+
+        <div className="flex items-center mb-5 space-x-4">
+  <label className={`cursor-pointer px-4 py-2 rounded-lg ${
+    isAdmin ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-800'
+  }`}>
+    <input
+      type="radio"
+      name="role"
+      value="admin"
+      checked={isAdmin}
+      onChange={() => setIsAdmin(true)}
+      className="hidden" // Hide the actual radio button
+    />
+    Буудлын эзэн
+  </label>
+  
+  <label className={`cursor-pointer px-4 py-2 rounded-lg ${
+    !isAdmin ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-800'
+  }`}>
+    <input
+      type="radio"
+      name="role"
+      value="user"
+      checked={!isAdmin}
+      onChange={() => setIsAdmin(false)}
+      className="hidden" // Hide the actual radio button
+    />
+    Ажилтан
+  </label>
 </div>
+
+
+
+
         <input
           type="email"
           placeholder="И-мэйл хаяг"
@@ -101,7 +145,7 @@ export default function LoginPage() {
             className="absolute right-3 top-2"
             onClick={() => setIsPasswordVisible((prev) => !prev)}
           >
-            {isPasswordVisible ? <HiEye className="center mt-2" size={20} /> : <HiEyeSlash  className="place-content-center mt-2" size={20} />}
+            {isPasswordVisible ? <HiEye className="center mt-2" size={20} /> : <HiEyeSlash className="place-content-center mt-2" size={20} />}
           </button>
         </div>
         {errors.password && <div className="text-red-500">{errors.password.message}</div>}
@@ -113,15 +157,10 @@ export default function LoginPage() {
         >
           {isSubmitting ? 'Түр хүлээнэ үү...' : 'Нэвтрэх'}
         </button>
-        <Link
-            className="text-blue-500 ml-[4px] hover:text-blue-300"
-            href={"/auth/resetpassword"}
-          >
-            Нууц үг сэргээх
-          </Link>
 
-
-        {errors.root && <div className="text-red-500 mt-2">{errors.root.message}</div>}
+        <Link className="text-blue-500 ml-[4px] hover:text-blue-300" href="/auth/resetpassword">
+          Нууц үг сэргээх
+        </Link>
       </form>
     </div>
   );

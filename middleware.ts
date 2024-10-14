@@ -2,19 +2,30 @@ import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
 export function middleware(req: NextRequest) {
-  // Check if the 'jwtToken' cookie exists
   const token = req.cookies.get('jwtToken')?.value;
+  const userType = req.cookies.get('userType')?.value;
 
-  // If the token is not found, redirect to the login page
   if (!token) {
     return NextResponse.redirect(new URL('/auth/signIn', req.url));
   }
 
-  // If the token exists, allow the request to proceed
+  // Restrict access based on user type
+  if (req.nextUrl.pathname.startsWith('/admin')) {
+    if (userType !== 'admin') {
+      return NextResponse.redirect(new URL('/user/dashboard', req.url));
+    }
+  }
+
+  if (req.nextUrl.pathname.startsWith('/user')) {
+    if (userType !== 'user') {
+      return NextResponse.redirect(new URL('/admin/dashboard', req.url));
+    }
+  }
+
   return NextResponse.next();
 }
 
-// Configure the middleware to protect specific routes
+// Protect admin and user routes
 export const config = {
-  matcher: ['/admin/:path*', '/dashboard/:path*'], // Protect routes like /admin or /dashboard
+  matcher: ['/admin/:path*', '/user/:path*'],
 };

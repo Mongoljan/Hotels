@@ -7,7 +7,7 @@ export default function AdminDashboard() {
 
 
   return (
-    <div className=" text-black">
+    <div className=" text-black  ">
       <h1>Admin Dashboard</h1>
       <p>Welcome, </p> {/* Display user info */}
       <div>

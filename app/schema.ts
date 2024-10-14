@@ -44,7 +44,7 @@ email: z.string().email({ message:"schemas_emailformat"}),
 const urlValidation = z.string().url({ message: "Invalid URL format" });
 export const schemaLogin = z.object({
     email: z.string().email('И-мэйл хаяг зөв биш байна'),
-    password: z.string().min(6, 'Нууц үг 6-аас доошгүй тэмдэгттэй байх ёстой'),
+    password: z.string().min(1, { message: "schemas_enteremail"}),
   });
   
 export const schemaRegistration = z
