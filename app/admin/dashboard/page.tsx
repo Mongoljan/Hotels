@@ -4,7 +4,7 @@ import Cookies from 'js-cookie';  // Import js-cookie
 
 
 export default function AdminDashboard() {
-  const router = useRouter();
+
 
 const hotelName= Cookies.get('hotelName')
 
