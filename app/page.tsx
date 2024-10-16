@@ -34,73 +34,11 @@ export default function Home() {
 
        
         {/* Checkbox controls for the menu */}
-        <div className="flex flex-col gap-4 mt-4">
-          <label>
-            <input
-              type="checkbox"
-              name="showAdminDashboard"
-              checked={menuConfig.showAdminDashboard}
-              onChange={handleCheckboxChange}
-            />
-            Админы хуудас харуулах
-          </label>
-          <label>
-            <input
-              type="checkbox"
-              name="showAdminSettings"
-              checked={menuConfig.showAdminSettings}
-              onChange={handleCheckboxChange}
-            />
-            Админы тохиргоо харуулах
-          </label>
-          <label>
-            <input
-              type="checkbox"
-              name="showSettings"
-              checked={menuConfig.showSettings}
-              onChange={handleCheckboxChange}
-            />
-            Тохиргоо харуулах
-          </label>
-          <label>
-            <input
-              type="checkbox"
-              name="showContact"
-              checked={menuConfig.showContact}
-              onChange={handleCheckboxChange}
-            />
-            Холбоо барих харуулах
-          </label>
-          <label>
-            <input
-              type="checkbox"
-              name="showProfile"
-              checked={menuConfig.showProfile}
-              onChange={handleCheckboxChange}
-            />
-            Хувийн мэдээлэл харуулах
-          </label>
-          <label>
-            <input
-              type="checkbox"
-              name="showUserMenu"
-              checked={menuConfig.showUserMenu}
-              onChange={handleCheckboxChange}
-            />
-            Хэрэглэгчийн цэс харуулах
-          </label>
-        </div>
+       
       </main>
 
       {/* Pass the state to Menu */}
-      <Menu
-        showAdminDashboard={menuConfig.showAdminDashboard}
-        showAdminSettings={menuConfig.showAdminSettings}
-        showSettings={menuConfig.showSettings}
-        showContact={menuConfig.showContact}
-        showProfile={menuConfig.showProfile}
-        showUserMenu={menuConfig.showUserMenu}
-      />
+    
     </div>
     </>
   );
