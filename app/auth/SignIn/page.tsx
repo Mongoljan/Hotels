@@ -49,7 +49,8 @@ export default function LoginPage() {
         const userTypes = await userTypesResponse.json();
   
         // Map user_type to the correct user role name
-        const userType = userTypes.find((type: { pk: any; }) => type.pk === responseData.user_type)?.name;
+        const userType = userTypes.find((type: { pk: number; name: string; }) => type.pk === responseData.user_type)?.name;
+
   
         if (!userType) {
           throw new Error("Unable to determine user type.");
