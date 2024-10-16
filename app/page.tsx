@@ -1,8 +1,8 @@
 'use client';
 import Link from "next/link";
 import { useState } from "react";
-import Menu from "@/components/menu";
-import Topbar from "@/components/topbar";
+import Menu from "@/app/[lang]/components/menu";
+import Topbar from "@/app/[lang]/components/topbar";
 
 export default function Home() {
   // State to manage checkboxes

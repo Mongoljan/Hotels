@@ -1,8 +1,8 @@
 "use client";
 import { useState, useEffect } from "react";
-import Menu from "@/components/menu";
+import Menu from "@/app/[lang]/components/menu";
 import Link from "next/link";
-import Topbar from "@/components/topbar";
+import Topbar from "@/app/[lang]/components/topbar";
 interface MenuConfig {
   showAdminDashboard: boolean;
   showAdminSettings: boolean;

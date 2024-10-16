@@ -1,0 +1,20 @@
+{
+    "title": "Лого",
+    "products": {
+      "catalog": "Каталог",
+      "cart": "Карт нэмэх",
+      "productOne": {
+        "altText": "Харандааны icon",
+        "title": "Эргүүлж харуулж бичих",
+        "description": "Таталцлын хүчгүй харандаа яасан ийсэн"
+      },
+      "productTwo": {
+        "altText": "Een potlood",
+        "title": "Schrijft elke taal",
+        "description": "De i18n pen vertaalt je tekst voor je. Schrijf gewoon je zin en op magische wijze wordt deze vertaald naar elke taal die je maar wilt!"
+      }
+    },
+    "footer": {
+      "allRights": "Alle rechten voorbehouden (niet echt)"
+    }
+  }

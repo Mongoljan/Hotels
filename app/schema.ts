@@ -110,6 +110,65 @@ export const schemaRegistration = z
   }),
 })
 
+export const schemaRegistrationEmployee = z
+.object({
+
+  email: z
+    .string()
+    .email({ message:"Email format is invalid"})
+    .max(255, { message: "Email address cannot exceed 255 characters"}),
+  contact_person_name: z
+    .string()
+    .min(3, { message: "Холбоо барих хүний нэр" }),
+    user_type : z 
+    .string(),
+  contact_number: z
+    .string()
+    .min(3, { message: "Гар утасны дугаар багадаа 3 оронтой байна."}),
+  password: z
+    .string()
+    .min(8, {
+      message:
+       "schemas_password",
+    })
+    .max(100, {
+      message:
+      "schemas_password",
+    })
+    .regex(/[a-z]/, {
+      message:
+      
+      "schemas_password",
+    }) // Lowercase letter
+    .regex(/[A-Z]/, {
+      message:
+      "schemas_password",
+    }) // Uppercase letter
+    .regex(/\d/, {
+      message:
+      "The password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one number, and one special character",
+    }) // Number
+    .regex(/[@$!%*;?&#]/, {
+      message:
+      "The password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one number, and one special character",
+    }), // Special character
+  // .min(8, { message: "Нууц үг дор хаяж 8 тэмдэгтийн урттай байна" })
+  // .max(100, { message: "Нууц үг 100 тэмдэгтээс их байж болохгүй" })
+  // .regex(/[a-z]/, {
+  //   message: "Password must contain at least one lowercase letter",
+  // }) // Lowercase letter
+  // .regex(/[A-Z]/, {
+  //   message: "Password must contain at least one uppercase letter",
+  // }) // Uppercase letter
+  // .regex(/\d/, { message: "Password must contain at least one number" }) // Number
+  // .regex(/[@$!%*;?&#]/, {
+  //   message: "Password must contain at least one special character",
+  // }), // Special character
+  confirmPassword: z.string().min(8, {
+    message: "The password must be at least 8 characters long",
+  }),
+})
+
 .refine((data) => data.password === data.confirmPassword, {
   message: "Password does not match",
   path: ["confirmPassword"], // Specify the path of the field to which the error belongs

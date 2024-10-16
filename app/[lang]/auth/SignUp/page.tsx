@@ -3,7 +3,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { schemaRegistration } from '../../schema';
+import { schemaRegistration } from '../../../schema';
 import { z } from 'zod';
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer, toast } from 'react-toastify';

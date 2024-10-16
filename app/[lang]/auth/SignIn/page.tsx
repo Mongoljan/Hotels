@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { schemaLogin } from '../../schema';
+import { schemaLogin } from '../../../schema';
 import { z } from 'zod';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -58,13 +58,18 @@ export default function LoginPage() {
   
         // Store token and userType in cookies
         Cookies.set('jwtToken', responseData.token, {
-          expires: 1, // Set expiration as desired
+          expires: 0.02083,  // 1 day expiration
           secure: process.env.NODE_ENV === 'production',
           sameSite: 'Strict',
         });
   
         Cookies.set('userType', userType, {
-          expires: 1,
+          expires: 0.02083,  // 1 day expiration
+          secure: process.env.NODE_ENV === 'production',
+          sameSite: 'Strict',
+        });
+        Cookies.set('pk', responseData.pk, {
+          expires: 0.02083,  // 1 day expiration
           secure: process.env.NODE_ENV === 'production',
           sameSite: 'Strict',
         });

@@ -72,6 +72,12 @@ export default function Sidebar() {
         >
           Support
         </Link>
+        <Link
+          className="rounded-lg px-4 py-2 hover:bg-blue-500 hover:text-white transition-colors"
+          href="/admin/register"
+        >
+          Register employee
+        </Link>
       </nav>
     </div>
   );
