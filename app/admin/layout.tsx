@@ -22,8 +22,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   }
 
   return (
-    <html lang="en">
-      <body>
+    <>
         {/* Topbar with the new button to toggle sidebar */}
         <Topbar toggleSidebar={toggleSidebar} sideBarOpen={isSidebarVisible} />
 
@@ -43,7 +42,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             {children}
           </div>
         </div>
-      </body>
-    </html>
+     
+   </>
   );
 }

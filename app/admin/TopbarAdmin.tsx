@@ -7,7 +7,7 @@ export default function Topbar({ toggleSidebar, sideBarOpen }: { toggleSidebar: 
   const handleLogout = () => {
     Cookies.remove('jwtToken');  // Remove the JWT token cookie
     // Optionally redirect or show a toast message here
-    window.location.href = '/auth/signIn';  // Redirect to sign-in page (or your desired route)
+    window.location.href = '/auth/SignIn';  // Redirect to sign-in page (or your desired route)
   };
 
   return (

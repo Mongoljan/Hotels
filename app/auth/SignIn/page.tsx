@@ -16,7 +16,6 @@ type FormFields = z.infer<typeof schemaLogin>;
 
 export default function LoginPage() {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
-  const [isAdmin, setIsAdmin] = useState(true); // Toggle between user and admin
   const router = useRouter();
 
   const {
@@ -30,99 +29,91 @@ export default function LoginPage() {
   const onSubmit: SubmitHandler<FormFields> = async (data) => {
     try {
       const requestBody = {
-        email: data.email,
-        password: data.password,
+        user_mail: data.email,
+        user_pass: data.password,
       };
-
-      // Define API endpoint based on toggle (admin or user)
-      const apiEndpoint = isAdmin
-        ? `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/hotel-owner/login/`
-        : `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/user-info-login/`;
-
-      const response = await fetch(apiEndpoint, {
+  
+      const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/login/`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(requestBody),
       });
-
+  
       if (response.ok) {
         const responseData = await response.json();
-
-        // Common token storage for both admin and user
+  
+        // Fetch user types
+        const userTypesResponse = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/user-type/`);
+        const userTypes = await userTypesResponse.json();
+  
+        // Map user_type to the correct user role name
+        const userType = userTypes.find((type: { pk: any; }) => type.pk === responseData.user_type)?.name;
+  
+        if (!userType) {
+          throw new Error("Unable to determine user type.");
+        }
+  
+        // Store token and userType in cookies
         Cookies.set('jwtToken', responseData.token, {
+          expires: 1, // Set expiration as desired
+          secure: process.env.NODE_ENV === 'production',
+          sameSite: 'Strict',
+        });
+  
+        Cookies.set('userType', userType, {
+          expires: 1,
+          secure: process.env.NODE_ENV === 'production',
+          sameSite: 'Strict',
+        });
+        Cookies.set('hotelName', responseData.hotel_name, {
           expires: 0.02083,  // 1 day expiration
           secure: process.env.NODE_ENV === 'production',
           sameSite: 'Strict',
         });
-
-        // Store specific user/admin info and type in a cookie
-        if (isAdmin && responseData.hotel_owner) {
-          Cookies.set('userType', 'admin');
-          Cookies.set('adminInfo', JSON.stringify(responseData.hotel_owner));
-          toast.success('Admin login successful!');
-          router.push('/admin/dashboard'); // Redirect to admin dashboard
-        } else if (responseData.user) {
-          Cookies.set('userType', 'user');
-          Cookies.set('userInfo', JSON.stringify(responseData.user));
-          toast.success('User login successful!');
-          router.push('/user/dashboard'); // Redirect to user dashboard
+  
+        toast.success('Login successful!');
+  
+        // Redirect based on user type
+        if (userType === 'Owner') {
+          router.push('/admin/dashboard');
         } else {
-          toast.error('Invalid response data.');
+          router.push('/user/dashboard');
         }
       } else {
         const errorData = await response.json();
-        toast.error(errorData.message || 'Login failed. Please check your input.');
+        if (response.status === 403) {
+          // Handle 403 Forbidden error specifically
+          toast.error('Access denied. Your request is pending.');
+        } else {
+          toast.error(errorData.message || 'Login failed. Please check your input.');
+        }
       }
     } catch (error) {
       toast.error('An unexpected error occurred during login');
       console.error('Error during login:', error);
     }
   };
+  
+  
 
   return (
-    <div className="flex bg-[#E5FDoD] justify-center items-center min-h-screen h-full py-[100px] rounded-[20px]">
+    <div className="flex bg-[#E5FDoD] justify-center items-center min-h-screen h-full py-[100px]  rounded-[20px]">
       <ToastContainer />
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="bg-white p-10 px-20 max-w-[600px] md:min-w-[550px] min-w-[250px] rounded-md text-gray-600"
+        className="bg-white p-10 px-20 max-w-[600px] md:min-w-[550px] min-w-[250px] rounded-md  text-gray-600"
       >
         <h2 className="text-2xl font-bold mx-auto text-center text-blue-500 mb-10">Нэвтрэх</h2>
-
-        <div className="flex items-center mb-5 space-x-4">
-  <label className={`cursor-pointer px-4 py-2 rounded-lg ${
-    isAdmin ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-800'
-  }`}>
-    <input
-      type="radio"
-      name="role"
-      value="admin"
-      checked={isAdmin}
-      onChange={() => setIsAdmin(true)}
-      className="hidden" // Hide the actual radio button
-    />
-    Буудлын эзэн
-  </label>
-  
-  <label className={`cursor-pointer px-4 py-2 rounded-lg ${
-    !isAdmin ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-800'
-  }`}>
-    <input
-      type="radio"
-      name="role"
-      value="user"
-      checked={!isAdmin}
-      onChange={() => setIsAdmin(false)}
-      className="hidden" // Hide the actual radio button
-    />
-    Ажилтан
-  </label>
+<div className="mb-5"> Аккаунт байхгүй юу?   
+<Link
+            className="text-blue-500 ml-[4px] hover:text-blue-300"
+            href={"/auth/SignUp"}
+          >
+            Бүртгүүлэх
+          </Link>
 </div>
-
-
-
-
         <input
           type="email"
           placeholder="И-мэйл хаяг"
@@ -145,7 +136,7 @@ export default function LoginPage() {
             className="absolute right-3 top-2"
             onClick={() => setIsPasswordVisible((prev) => !prev)}
           >
-            {isPasswordVisible ? <HiEye className="center mt-2" size={20} /> : <HiEyeSlash className="place-content-center mt-2" size={20} />}
+            {isPasswordVisible ? <HiEye className="center mt-2" size={20} /> : <HiEyeSlash  className="place-content-center mt-2" size={20} />}
           </button>
         </div>
         {errors.password && <div className="text-red-500">{errors.password.message}</div>}
@@ -157,10 +148,14 @@ export default function LoginPage() {
         >
           {isSubmitting ? 'Түр хүлээнэ үү...' : 'Нэвтрэх'}
         </button>
+        <Link
+            className="text-blue-500 ml-[4px] hover:text-blue-300"
+            href={"/auth/resetpassword"}
+          >
+            Нууц үг сэргээх
+          </Link>
 
-        <Link className="text-blue-500 ml-[4px] hover:text-blue-300" href="/auth/resetpassword">
-          Нууц үг сэргээх
-        </Link>
+        {errors.root && <div className="text-red-500 mt-2">{errors.root.message}</div>}
       </form>
     </div>
   );

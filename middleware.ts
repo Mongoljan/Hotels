@@ -11,13 +11,13 @@ export function middleware(req: NextRequest) {
 
   // Restrict access based on user type
   if (req.nextUrl.pathname.startsWith('/admin')) {
-    if (userType !== 'admin') {
+    if (userType !== 'Owner') {
       return NextResponse.redirect(new URL('/user/dashboard', req.url));
     }
   }
 
   if (req.nextUrl.pathname.startsWith('/user')) {
-    if (userType !== 'user') {
+    if (userType === 'Owner') {
       return NextResponse.redirect(new URL('/admin/dashboard', req.url));
     }
   }
