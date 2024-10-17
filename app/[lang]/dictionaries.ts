@@ -1,13 +1,18 @@
 import "server-only";
 
-type DictionaryLoader = () => Promise<any>; // You can specify a more specific type if you know the structure of your JSON
+type Dictionary = {
+  [key: string]: string;
+};
+
+type DictionaryLoader = () => Promise<Dictionary>;
+
 type Dictionaries = {
   [key: string]: DictionaryLoader;
 };
 
 const dictionaries: Dictionaries = {
-  mn: () => import("./dictionaries/mn.json").then((module) => module.default),
-  en: () => import("./dictionaries/en.json").then((module) => module.default),
+  mn: () => import("./dictionaries/mn.json").then((module) => module.default as unknown as Dictionary),
+  en: () => import("./dictionaries/en.json").then((module) => module.default as unknown as Dictionary),
 };
 
 export const getDictionary = async (locale: string) => {
