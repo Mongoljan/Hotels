@@ -13,8 +13,18 @@
         "title": "Schrijft elke taal",
         "description": "De i18n pen vertaalt je tekst voor je. Schrijf gewoon je zin en op magische wijze wordt deze vertaald naar elke taal die je maar wilt!"
       }
+      
     },
     "footer": {
       "allRights": "Alle rechten voorbehouden (niet echt)"
+    },
+    "topbar":{
+      "sign_in":"Нэвтрэх",
+      "sign_out":"Гарах",
+      "sign_up":"Бүртгүүлэх"
+    },
+    "sidebar":{
+      "register":"Ажилтан бүртгүүлэх"
     }
+    
   }

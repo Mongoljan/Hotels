@@ -1,48 +1,50 @@
-'use client';
-import { useEffect, useState } from "react";
-import Topbar from "./TopbarAdmin";
-import Sidebar from "./Sidebar";
+import type { Metadata } from "next";
+import { Inter } from "next/font/google";
+// import "./globals.css";
+import { getDictionary } from "../dictionaries";
+import MainLayout from "./admin_layout";
+// import { ThemeProvider } from "next-themes";
 
-export default function Layout({ children }: { children: React.ReactNode }) {
-  const [isSidebarVisible, setSidebarVisible] = useState(false);
-  const [isMounted, setIsMounted] = useState(false);
+const inter = Inter({ subsets: ["latin"] });
 
-  // Ensure this runs only on the client-side after the component has mounted
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
+export const metadata: Metadata = {
+  title: "Уран бүтээлч хөлслөх вэбсайт",
+  description: "",
+};
 
-  const toggleSidebar = () => {
-    setSidebarVisible(!isSidebarVisible);
-  };
+export async function generateStaticParams() {
+  return [{ lang: "mn" }, { lang: "en" }];
+}
 
-  if (!isMounted) {
-    // Prevent hydration errors by returning null until the client renders the component
-    return null;
-  }
+type Props = {
+  children: React.ReactNode;
+  params: { lang: string };
+};
+
+export default async function RootLayout({
+  children,
+  params: { lang },
+}: Readonly<Props>) {
+  const dict = await getDictionary(lang);
 
   return (
-    <>
-        {/* Topbar with the new button to toggle sidebar */}
-        <Topbar toggleSidebar={toggleSidebar} sideBarOpen={isSidebarVisible} />
+    <html lang={lang} className="h-full">
+   {/* <head>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" />
+  <link 
+    href="https://fonts.googleapis.com/css2?family=Mulish:wght@200;400;600;800&display=swap" 
+    rel="stylesheet" 
+  />
+</head> */}
 
-        <div className="relative flex">
-          {/* Sidebar */}
-          <div
-            className={`fixed top-0 left-0 z-50 transition-transform duration-700 ease-in-out transform bg-gray-100 shadow-lg w-80 h-screen
-            ${isSidebarVisible ? "translate-x-0" : "-translate-x-full"}`}
-          >
-            <Sidebar />
-          </div>
-
-          {/* Main content */}
-          <div
-            className={`flex-grow z-10 transition-all duration-700 ease-in-out ${isSidebarVisible ? "ml-80" : "ml-0"}`}
-          >
+      <body className={`font-mulish h-full`}>
+        {/* <ThemeProvider defaultTheme="dark" enableSystem disableTransitionOnChange> */}
+          <MainLayout dict={dict} lang={lang}>
             {children}
-          </div>
-        </div>
-     
-   </>
+          </MainLayout>
+        {/* </ThemeProvider> */}
+      </body>
+    </html>
   );
 }

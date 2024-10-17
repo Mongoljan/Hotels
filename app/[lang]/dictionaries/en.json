@@ -16,5 +16,13 @@
     },
     "footer": {
       "allRights": "All rights reserved (not really)"
+    },
+    "topbar":{
+      "sign_in":"Sign In",
+      "sign_out":"Sign Out",
+      "sign_up":"Sign Up"
+    },
+    "sidebar":{
+      "register":"Register staff"
     }
   }
