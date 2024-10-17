@@ -1,6 +1,8 @@
+// dictionaries.ts
 import "server-only";
 
-type Dictionary = {
+// Exporting Dictionary type for reuse in other files
+export type Dictionary = {
   [key: string]: string;
 };
 
@@ -15,6 +17,7 @@ const dictionaries: Dictionaries = {
   en: () => import("./dictionaries/en.json").then((module) => module.default as unknown as Dictionary),
 };
 
+// Export the function to get the dictionary based on locale
 export const getDictionary = async (locale: string) => {
   const dictionaryLoader = dictionaries[locale];
   if (dictionaryLoader) {
