@@ -40,7 +40,7 @@ export function middleware(request: NextRequest) {
 
   // Redirect to sign-in if no token is found
   if (!token) {
-    return NextResponse.redirect(new URL('/auth/signIn', request.url));
+    return NextResponse.redirect(new URL('/auth/login', request.url));
   }
 
   // Restrict access based on user type

@@ -1,5 +1,5 @@
 'use client'
-import LoginPage from './auth/signIn/page'; // Adjust path as necessary
+import LoginPage from './auth/login/page'; // Adjust path as necessary
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Cookies from 'js-cookie'; // To check if the user is already logged in

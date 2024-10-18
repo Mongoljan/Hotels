@@ -31,7 +31,7 @@ export default function Topbar({ toggleSidebar, sideBarOpen, dict, lang }: { tog
   // Logout handler
   const handleLogout = () => {
     Cookies.remove('jwtToken');  // Remove the JWT token cookie
-    window.location.href = '/auth/signIn';  // Redirect to sign-in page (or your desired route)
+    window.location.href = '/auth/login';  // Redirect to sign-in page (or your desired route)
   };
 
   return (
@@ -49,7 +49,7 @@ export default function Topbar({ toggleSidebar, sideBarOpen, dict, lang }: { tog
           </button>
           <Link
             className="rounded-sm border border-solid border-blue-500 transition-colors flex items-center justify-center hover:bg-blue-500 hover:border-transparent text-xs sm:text-base h-7 sm:h-8 px-2 sm:px-2 sm:min-w-36 text-blue-500 hover:text-white"
-            href="/auth/signUp"
+            href="/auth/register"
           >
             {dict.topbar.sign_up}
           </Link>

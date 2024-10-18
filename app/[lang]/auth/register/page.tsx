@@ -142,7 +142,7 @@ export default function RegisterPage() {
         <h2 className="text-2xl font-bold mx-auto text-center text-blue-500 mb-10">Бүртүүлэх</h2>
 
         <div className="mb-5">Аккаунт байгаа юу?
-          <Link className="text-blue-500 ml-[4px] hover:text-blue-300" href={"/auth/signIn"}>
+          <Link className="text-blue-500 ml-[4px] hover:text-blue-300" href={"/auth/login"}>
             Нэвтрэх
           </Link>
         </div>

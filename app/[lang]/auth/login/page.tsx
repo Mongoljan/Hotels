@@ -126,7 +126,7 @@ export default function LoginPage() {
 <div className="mb-5"> Аккаунт байхгүй юу?   
 <Link
             className="text-blue-500 ml-[4px] hover:text-blue-300"
-            href={"/auth/SignUp"}
+            href={"/auth/register"}
           >
             Бүртгүүлэх
           </Link>

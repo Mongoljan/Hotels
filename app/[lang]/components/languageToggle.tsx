@@ -25,7 +25,7 @@ const LanguageToggle = () => {
       segments.unshift(newLang);
     }
 
-    // Handle the edge case where the path is directly at `/auth/signIn` without a locale
+    // Handle the edge case where the path is directly at `/auth/login` without a locale
     if (segments.length === 1 && segments[0].startsWith('auth')) {
       segments.unshift(newLang); // Ensure the locale is added properly
     }
