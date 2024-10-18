@@ -1,7 +1,15 @@
 import { useState } from "react";
 import Link from "next/link";
 
-export default function Sidebar() {
+interface Sidebar{
+  dashboard:string;
+  register:string;
+}
+interface SideDictionary{
+  sidebar:Sidebar;
+}
+
+export default function Sidebar( { dict, lang} : {dict: SideDictionary; lang: string}){
   const [isHotelMenuOpen, setHotelMenuOpen] = useState(false);
 
   const toggleHotelMenu = () => {
@@ -10,22 +18,21 @@ export default function Sidebar() {
 
   return (
     <div className="p-4 h-full bg-white text-black">
-      <div className="text-xl font-bold mb-8">My Sidebar</div>
+      {/* <div className="text-xl font-bold mb-8">My Sidebar</div> */}
       <nav className="flex flex-col gap-4">
         <Link
           className="rounded-lg px-4 py-2 hover:bg-blue-500 hover:text-white transition-colors"
-          href="/dashboard"
+          href="/admin/dashboard"
         >
-          Dashboard
+          {dict.sidebar.dashboard}
         </Link>
-        <Link
+        {/* <Link
           className="rounded-lg px-4 py-2 hover:bg-blue-500 hover:text-white transition-colors"
           href="/reports"
         >
           Reports
         </Link>
-        
-        {/* Manage Hotel Dropdown */}
+      
         <div className="flex flex-col">
           <button
             className="rounded-lg px-4 py-2 hover:bg-blue-500 hover:text-white transition-colors flex justify-between items-center"
@@ -71,12 +78,12 @@ export default function Sidebar() {
           href="/support"
         >
           Support
-        </Link>
+        </Link> */}
         <Link
           className="rounded-lg px-4 py-2 hover:bg-blue-500 hover:text-white transition-colors"
           href="/admin/register"
         >
-          Register employee
+        {dict.sidebar.register}
         </Link>
       </nav>
     </div>

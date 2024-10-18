@@ -24,7 +24,8 @@
       "sign_up":"Бүртгүүлэх"
     },
     "sidebar":{
-      "register":"Ажилтан бүртгүүлэх"
+      "register":"Ажилтан бүртгүүлэх",
+      "dashboard":"Админ dashsboard"
     }
     
   }

@@ -33,7 +33,7 @@ export default function Layout({ children, dict, lang }: { children: React.React
           className={`fixed top-0 left-0 z-50 transition-transform duration-700 ease-in-out transform bg-gray-100 shadow-lg w-80 h-screen
           ${isSidebarVisible ? "translate-x-0" : "-translate-x-full"}`}
         >
-          <Sidebar />
+          <Sidebar  dict={dict} lang={lang} />
         </div>
 
         {/* Main content */}

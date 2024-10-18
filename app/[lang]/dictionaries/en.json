@@ -23,6 +23,7 @@
       "sign_up":"Sign Up"
     },
     "sidebar":{
-      "register":"Register staff"
+      "register":"Register staff",
+      "dashboard" :"Dashboard"
     }
   }
