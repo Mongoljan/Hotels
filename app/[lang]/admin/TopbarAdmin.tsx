@@ -33,7 +33,6 @@ export default function Topbar({ toggleSidebar, sideBarOpen, dict, lang }: { tog
     Cookies.remove('jwtToken');  // Remove the JWT token cookie
     window.location.href = '/auth/SignIn';  // Redirect to sign-in page (or your desired route)
   };
-  console.log(dict)
 
   return (
     <div>

@@ -1,45 +1,27 @@
-'use client';
-import Link from "next/link";
-import { useState } from "react";
-import Menu from "@/app/[lang]/components/menu";
-import Topbar from "@/app/[lang]/components/topbar";
+'use client'
+import LoginPage from './auth/signIn/page'; // Adjust path as necessary
+import { useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+import Cookies from 'js-cookie'; // To check if the user is already logged in
 
 export default function Home() {
-  // State to manage checkboxes
-  const [menuConfig, setMenuConfig] = useState({
-    showAdminDashboard: false,
-    showAdminSettings: false,
-    showSettings: false,
-    showContact: false,
-    showProfile: false,
-    showUserMenu: false,
-  });
+  const router = useRouter();
 
-  // Handler to update menu visibility
-  const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, checked } = event.target;
-    setMenuConfig((prevConfig) => ({
-      ...prevConfig,
-      [name]: checked,
-    }));
-  };
-
-  return (
-    <>
-    <Topbar/>
-    <div className=" grid grid-rows-[20px_1fr_20px] bg-[#E5F0FD] text-black items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-
-        <div className="text-[40px]">Нүүр хуудас</div>
-
-       
-        {/* Checkbox controls for the menu */}
-       
-      </main>
-
-      {/* Pass the state to Menu */}
+  useEffect(() => {
+    // Check if the user is already logged in by checking the presence of the token in cookies
+    const token = Cookies.get('jwtToken');
     
-    </div>
-    </>
-  );
+    // If the token exists, redirect the user to the dashboard (based on userType)
+    if (token) {
+      const userType = Cookies.get('userType');
+      if (userType === 'Owner') {
+        router.push('/admin/dashboard'); // Redirect to admin dashboard
+      } else {
+        router.push('/user/dashboard');  // Redirect to user dashboard
+      }
+    }
+  }, [router]);
+
+  // If no token, show the login page
+  return <LoginPage />;
 }

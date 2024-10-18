@@ -82,7 +82,6 @@ export default function RegisterPage() {
         user_phone: data.contact_number,
       };
 
-      console.log("Request body:", requestBody);
 
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/register/`,

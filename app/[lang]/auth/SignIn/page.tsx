@@ -11,6 +11,8 @@ import { HiEye, HiEyeSlash } from 'react-icons/hi2';
 import { useRouter } from 'next/navigation';
 import Cookies from 'js-cookie';  // Import js-cookie
 import Link from 'next/link';
+import LanguageToggle from '../../components/languageToggle';
+import { getDictionary } from "../../dictionaries";
 
 type FormFields = z.infer<typeof schemaLogin>;
 
@@ -106,11 +108,20 @@ export default function LoginPage() {
 
   return (
     <div className="flex bg-[#E5FDoD] justify-center items-center min-h-screen h-full py-[100px]  rounded-[20px]">
+ 
+      <div>
       <ToastContainer />
+    
+      <div className="flex text-gray-500 pt-3 pr-3 bg-white rounded-t-md justify-end">
+            
+              <LanguageToggle />
+              </div>
+      
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="bg-white p-10 px-20 max-w-[600px] md:min-w-[550px] min-w-[250px] rounded-md  text-gray-600"
+        className="bg-white p-10 px-20 max-w-[600px] md:min-w-[550px] min-w-[250px] rounded-b-md  text-gray-600"
       >
+
         <h2 className="text-2xl font-bold mx-auto text-center text-blue-500 mb-10">Нэвтрэх</h2>
 <div className="mb-5"> Аккаунт байхгүй юу?   
 <Link
@@ -163,6 +174,7 @@ export default function LoginPage() {
 
         {errors.root && <div className="text-red-500 mt-2">{errors.root.message}</div>}
       </form>
+    </div>
     </div>
   );
 }
