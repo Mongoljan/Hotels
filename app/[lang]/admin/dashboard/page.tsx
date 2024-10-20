@@ -2,8 +2,15 @@
 import { useRouter } from 'next/navigation';
 import Cookies from 'js-cookie';  // Import js-cookie
 
+interface DashboardDictionary{
+  title:string;
+  welcomeMessage:string;
+  hotelLabel:string;
+}
 
-export default function AdminDashboard() {
+
+export default function AdminDashboard({dict}:{dict: DashboardDictionary}) {
+
 
 
 const hotelName= Cookies.get('hotelName')

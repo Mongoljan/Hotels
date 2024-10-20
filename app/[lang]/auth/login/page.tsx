@@ -16,7 +16,7 @@ import { getDictionary } from "../../dictionaries";
 
 type FormFields = z.infer<typeof schemaLogin>;
 
-export default function LoginPage() {
+export default async function LoginPage() {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const router = useRouter();
 
@@ -27,6 +27,18 @@ export default function LoginPage() {
   } = useForm<FormFields>({
     resolver: zodResolver(schemaLogin),
   });
+
+
+  const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/system-info/`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+
+  });
+  const data = await response.json();
+
+
 
   const onSubmit: SubmitHandler<FormFields> = async (data) => {
     try {
@@ -104,13 +116,18 @@ export default function LoginPage() {
     }
   };
   
-  
+  console.log(data[0]?.description);
 
   return (
+    <div>
+
     <div className="flex bg-[#E5FDoD] justify-center items-center min-h-screen h-full py-[100px]  rounded-[20px]">
- 
+    
       <div>
       <ToastContainer />
+      <div className="flex justify-center">
+      <div className="text-black flex justify-center pt-[10px] pb-[40px] w-[350px] text-[30px] text-center ">{data[0]?.description}</div> 
+      </div>
     
       <div className="flex text-gray-500 pt-3 pr-3 bg-white rounded-t-md justify-end">
             
@@ -174,6 +191,7 @@ export default function LoginPage() {
 
         {errors.root && <div className="text-red-500 mt-2">{errors.root.message}</div>}
       </form>
+    </div>
     </div>
     </div>
   );
