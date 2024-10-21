@@ -2,6 +2,7 @@
 import Cookies from 'js-cookie';  // Import js-cookie
 import { getDictionary } from "../../dictionaries";
 
+
 type Props = {
   params: { lang: string };
 };
@@ -10,7 +11,6 @@ type Props = {
 export default async function AdminDashboard({ params }: Props) {
   const { lang } = params;
   const dict = await getDictionary(lang);
-
 
 const hotelName= Cookies.get('hotelName')
 
