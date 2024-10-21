@@ -1,23 +1,15 @@
-// dictionaries.ts
 import "server-only";
 
-// Exporting Dictionary type for reuse in other files
-export type Dictionary = {
-  [key: string]: string;
-};
-
-type DictionaryLoader = () => Promise<Dictionary>;
-
+type DictionaryLoader = () => Promise<any>; // You can specify a more specific type if you know the structure of your JSON
 type Dictionaries = {
   [key: string]: DictionaryLoader;
 };
 
 const dictionaries: Dictionaries = {
-  mn: () => import("./dictionaries/mn.json").then((module) => module.default as unknown as Dictionary),
-  en: () => import("./dictionaries/en.json").then((module) => module.default as unknown as Dictionary),
+  mn: () => import("./dictionaries/mn.json").then((module) => module.default),
+  en: () => import("./dictionaries/en.json").then((module) => module.default),
 };
 
-// Export the function to get the dictionary based on locale
 export const getDictionary = async (locale: string) => {
   const dictionaryLoader = dictionaries[locale];
   if (dictionaryLoader) {

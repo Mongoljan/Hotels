@@ -1,16 +1,15 @@
-'use client'
-import { useRouter } from 'next/navigation';
+// 'use client'
 import Cookies from 'js-cookie';  // Import js-cookie
+import { getDictionary } from "../../dictionaries";
 
-interface DashboardDictionary{
-  title:string;
-  welcomeMessage:string;
-  hotelLabel:string;
-}
+type Props = {
+  params: { lang: string };
+};
 
 
-export default function AdminDashboard({dict}:{dict: DashboardDictionary}) {
-
+export default async function AdminDashboard({ params }: Props) {
+  const { lang } = params;
+  const dict = await getDictionary(lang);
 
 
 const hotelName= Cookies.get('hotelName')
@@ -18,10 +17,9 @@ const hotelName= Cookies.get('hotelName')
   return (
     <div className=" text-black  ">
       <h1>Admin Dashboard</h1>
-      <p>Welcome, </p> {/* Display user info */}
+      <p>{dict.dashboard.welcomeMessage} </p> {/* Display user info */}
       <div>
-        added some changes
-      hotel: <div className=" text-black text-[30px]"> {hotelName}</div> 
+        {dict.dashboard.hotelLabel} <div className=" text-black text-[30px]">{hotelName} </div> 
         
       </div>
     </div>

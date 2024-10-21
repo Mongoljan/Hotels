@@ -25,6 +25,11 @@
     "sidebar":{
       "register":"Register staff",
       "dashboard" :"Dashboard"
+    },
+    "dashboard":{
+      "title":"title",
+      "welcomeMessage":"welcome to the system",
+      "hotelLabel":"Hotel Name"
     }
     
     

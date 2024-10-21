@@ -26,6 +26,12 @@
     "sidebar":{
       "register":"Ажилтан бүртгүүлэх",
       "dashboard":"Админ dashsboard"
+    },
+    "dashboard":{
+      "title":"гарчиг",
+      "welcomeMessage":"Тавтай морил",
+      "hotelLabel":"Буудлын нэр"
     }
+    
     
   }
