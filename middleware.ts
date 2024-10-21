@@ -50,9 +50,9 @@ export function middleware(request: NextRequest) {
     }
   }
 
-  if (pathname.startsWith('/user')) {
-    if (userType === 'Owner') {
-      return NextResponse.redirect(new URL('/admin/dashboard', request.url));
+  if (pathname.startsWith('/superadmin')) {
+    if (userType === 'SuperAdmin') {
+      return NextResponse.redirect(new URL('/superadmin/dashboard', request.url));
     }
   }
 
@@ -66,6 +66,7 @@ export const config = {
     "/((?!_next).*)",
     // Apply to specific paths for user and admin
     '/admin/:path*',
-    '/user/:path*'
+    '/user/:path*',
+    '/superadmin/:path*',
   ],
 };

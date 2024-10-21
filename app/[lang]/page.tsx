@@ -3,14 +3,9 @@ import LoginPage from './auth/login/page'; // Adjust path as necessary
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Cookies from 'js-cookie'; // To check if the user is already logged in
-import Hotjar from '@hotjar/browser';
 
 export default function Home() {
   const router = useRouter();
-  const siteId = 5178245;
-  const hotjarVersion = 6;
-  
-  Hotjar.init(siteId, hotjarVersion);
 
   useEffect(() => {
     // Check if the user is already logged in by checking the presence of the token in cookies

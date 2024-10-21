@@ -95,8 +95,8 @@ export default function RegisterPage() {
       );
 
       if (response.ok) {
-        toast.success('Registration successful! Your registration approval is pending.');
-        router.push('/admin/dashboard');
+        router.push('/auth/login');
+              toast.success('Registration successful! Your registration approval is pending. Log in with our credientials');
       } else {
         const errorData = await response.json();
         
@@ -173,7 +173,7 @@ export default function RegisterPage() {
         />
         {errors.email && <div className="text-red-500">{errors.email.message}</div>}
 
-        <input
+        {/* <input
           type="text"
           placeholder="Буудлын google map location"
           {...register('google_map_address')}
@@ -181,7 +181,7 @@ export default function RegisterPage() {
         />
         {errors.google_map_address && (
           <div className="text-red-500">{errors.google_map_address.message}</div>
-        )}
+        )} */}
 
         <input
           type="text"

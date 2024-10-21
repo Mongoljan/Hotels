@@ -30,10 +30,7 @@ export default function Topbar({ toggleSidebar, sideBarOpen, dict, lang }: { tog
 
   // Logout handler
   const handleLogout = () => {
-    Object.keys(Cookies.get()).forEach(cookieName => {
-      Cookies.remove(cookieName);  // Remove each cookie
-    });
-
+    Cookies.remove('jwtToken');  // Remove the JWT token cookie
     window.location.href = '/auth/login';  // Redirect to sign-in page (or your desired route)
   };
 

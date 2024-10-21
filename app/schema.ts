@@ -59,7 +59,7 @@ export const schemaRegistration = z
     hotel_name: z
     .string()
     .min(3, { message: "Зочид буудлын нэр" }),
-    google_map_address: urlValidation,
+    // google_map_address: urlValidation,
     address_location: z
     .string()
     .min(3, { message: "Зочид буудлын хаяг" }),
@@ -70,20 +70,20 @@ export const schemaRegistration = z
     .string()
     .min(8, {
       message:
-       "schemas_password",
+       "The password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one number, and one special character",
     })
     .max(100, {
       message:
-      "schemas_password",
+      "The password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one number, and one special character",
     })
     .regex(/[a-z]/, {
       message:
       
-      "schemas_password",
+      "The password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one number, and one special character",
     }) // Lowercase letter
     .regex(/[A-Z]/, {
       message:
-      "schemas_password",
+      "The password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one number, and one special character",
     }) // Uppercase letter
     .regex(/\d/, {
       message:
@@ -129,20 +129,20 @@ export const schemaRegistrationEmployee = z
     .string()
     .min(8, {
       message:
-       "schemas_password",
+       "The password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one number, and one special character",
     })
     .max(100, {
       message:
-      "schemas_password",
+      "The password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one number, and one special character",
     })
     .regex(/[a-z]/, {
       message:
       
-      "schemas_password",
+      "The password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one number, and one special character",
     }) // Lowercase letter
     .regex(/[A-Z]/, {
       message:
-      "schemas_password",
+      "The password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one number, and one special character",
     }) // Uppercase letter
     .regex(/\d/, {
       message:

@@ -82,14 +82,15 @@ const LoginForm: React.FC<LoginFormProps> = ({ description }) => {
           secure: process.env.NODE_ENV === 'production',
           sameSite: 'Strict',
         });
+        
 
         toast.success('Login successful!');
 
         // Redirect based on user type
         if (userType === 'Owner') {
           router.push('/admin/dashboard');
-        } else {
-          router.push('/user/dashboard');
+        } else if (userType==='SuperAdmin') {
+          router.push('/superadmin/dashboard');
         }
       } else {
         const errorData = await response.json();

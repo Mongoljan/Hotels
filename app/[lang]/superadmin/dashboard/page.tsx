@@ -13,14 +13,13 @@ export default async function AdminDashboard({ params }: Props) {
   const dict = await getDictionary(lang);
 
 const hotelName= Cookies.get('hotelName')
-console.log("here is hotelNmae", hotelName)
 
   return (
     <div className=" text-black  ">
       <h1>Admin Dashboard</h1>
       <p>{dict.dashboard.welcomeMessage} </p> {/* Display user info */}
       <div>
-        {dict.dashboard.hotelLabel} <div className=" text-black text-[30px]">{hotelName} sdaf</div> 
+        {dict.dashboard.hotelLabel} <div className=" text-black text-[30px]">{hotelName} </div> 
         
       </div>
     </div>

@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 import Topbar from "@/app/[lang]/components/topbar";
-import Hotjar from '@hotjar/browser';
 
 
 
