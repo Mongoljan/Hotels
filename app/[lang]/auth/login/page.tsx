@@ -13,6 +13,7 @@ export default async function LoginPage() {
   });
   const data = await response.json();
 
+  // console.log(data);
 
   
   // const dict = await getDictionary('en'); // Example if using translations

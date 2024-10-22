@@ -43,18 +43,16 @@ export function middleware(request: NextRequest) {
     return NextResponse.redirect(new URL('/auth/login', request.url));
   }
 
-  // Restrict access based on user type
-  if (pathname.startsWith('/admin')) {
-    if (userType !== 'Owner') {
-      return NextResponse.redirect(new URL('/user/dashboard', request.url));
-    }
+  // Handle user type redirects
+  if (pathname.startsWith('/admin') && userType !== 'Owner') {
+    return NextResponse.redirect(new URL('/user/dashboard', request.url));
   }
 
-  if (pathname.startsWith('/superadmin')) {
-    if (userType === 'SuperAdmin') {
-      return NextResponse.redirect(new URL('/superadmin/dashboard', request.url));
-    }
+  if (pathname.startsWith('/superadmin') && userType !== 'SuperAdmin') {
+    return NextResponse.redirect(new URL('/user/dashboard', request.url));
   }
+
+  // Add additional checks here if you have more user types or roles
 
   return NextResponse.next();
 }

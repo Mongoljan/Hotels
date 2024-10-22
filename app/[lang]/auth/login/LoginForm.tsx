@@ -1,7 +1,6 @@
-// app/auth/components/LoginForm.tsx
 'use client'; // This is now a client component
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { schemaLogin } from '../../../schema';
@@ -22,7 +21,6 @@ interface LoginFormProps {
 const LoginForm: React.FC<LoginFormProps> = ({ description }) => {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const router = useRouter();
-
   const {
     register,
     handleSubmit,
@@ -30,6 +28,21 @@ const LoginForm: React.FC<LoginFormProps> = ({ description }) => {
   } = useForm<FormFields>({
     resolver: zodResolver(schemaLogin),
   });
+
+  useEffect(() => {
+    // Check if user is already logged in
+    const token = Cookies.get('jwtToken');
+    const userType = Cookies.get('userType');
+
+    if (token) {
+      // Redirect based on user type
+      if (userType === 'Owner') {
+        router.push('/admin/dashboard');
+      } else if (userType === 'SuperAdmin') {
+        router.push('/superadmin/dashboard');
+      }
+    }
+  }, [router]);
 
   const onSubmit: SubmitHandler<FormFields> = async (data) => {
     try {
@@ -47,7 +60,9 @@ const LoginForm: React.FC<LoginFormProps> = ({ description }) => {
       });
 
       if (response.ok) {
+        console.log("success");
         const responseData = await response.json();
+        console.log(responseData);
 
         // Fetch user types
         const userTypesResponse = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/user-type/`);
@@ -72,6 +87,8 @@ const LoginForm: React.FC<LoginFormProps> = ({ description }) => {
           secure: process.env.NODE_ENV === 'production',
           sameSite: 'Strict',
         });
+
+        // Other cookies as needed
         Cookies.set('pk', responseData.pk, {
           expires: 0.02083,  // 1 day expiration
           secure: process.env.NODE_ENV === 'production',
@@ -82,14 +99,13 @@ const LoginForm: React.FC<LoginFormProps> = ({ description }) => {
           secure: process.env.NODE_ENV === 'production',
           sameSite: 'Strict',
         });
-        
 
         toast.success('Login successful!');
 
         // Redirect based on user type
         if (userType === 'Owner') {
           router.push('/admin/dashboard');
-        } else if (userType==='SuperAdmin') {
+        } else if (userType === 'SuperAdmin') {
           router.push('/superadmin/dashboard');
         }
       } else {

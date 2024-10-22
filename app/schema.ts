@@ -169,6 +169,7 @@ export const schemaRegistrationEmployee = z
   }),
 })
 
+
 .refine((data) => data.password === data.confirmPassword, {
   message: "Password does not match",
   path: ["confirmPassword"], // Specify the path of the field to which the error belongs
